@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function finduser() {
+  if [ $# -gt 0 ]; then
+    cmd="getent passwd | grep @ | cut -d ':' -f 5 | cut -d ',' -f 1"
+    for i in "$@"; do
+      if getent passwd | grep @ | cut -d ':' -f 5 | cut -d ',' -f 1 | grep -q -i $i; then
+        cmd="$cmd | grep -i $i"
+      else
+        exit 1
+      fi
+    done
+
+    fullnames="$(eval $cmd)"
+    echo "$fullnames" | \
+    while read line; do 
+      cmd="getent passwd | grep '$line' | cut -d ':' -f 1"
+      echo "$(eval $cmd),$line"
+    done
+  else
+    cat >&2 <<EOF
+usage: $(basename $0) search_term...
+Find every user that has all of the case-insensitive unordered search
+terms present in his/her account's comment field.
+EOF
+  fi
+}
+
+finduser $@

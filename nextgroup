@@ -1,0 +1,92 @@
+#!/bin/bash
+
+function nextgroup() {
+
+  # Extract group id's from the group database and sort numerically
+  gids=$(getent group | cut -d ':' -f 3 | sort -n)
+
+  # Initialize variable to keep track of whether the argument passed is valid
+  validusage=0
+  helpflag=0
+  
+  # Case where there is no input argument (which counts as valid usage)
+  if [ $# -eq 0 ]; then
+    validusage=1
+    base=0
+    limit=99999
+
+  # Case where input argument is valid and matches leading "-" usage case
+  elif [ $# -eq 1 ] && [ $1 != -h ] && [ $(echo $1 | grep -E '^-[0-9]+$') ]; then
+    validusage=1
+    base=0
+    # limit = characters after the dash
+    limit=$(echo $1 | cut -d '-' -f 2)
+  
+  # Case where input argument is valid and matches trailing "-" usage case
+  elif [ $# -eq 1 ] && [ $1 != -h ] && [ $(echo $1 | grep -E '^[0-9]+-$') ]; then
+    validusage=1
+    # base = characters before the dash
+    base=$(echo $1 | cut -d '-' -f 1)
+    # limit = the highest group id possible
+    limit=99999
+
+  # Case where input argument is valid and matches full range given case
+  elif [ $# -eq 1 ] && [ $1 != -h ] && [ $(echo $1 | grep -E '^[0-9]+-[0-9]+$') ]; then
+    validusage=1
+    base=$(echo $1 | cut -d '-' -f 1)
+    limit=$(echo $1 | cut -d '-' -f 2)
+  
+  # Case where input argument is valid and is the help flag
+  elif [ $# -eq 1 ] && [ $1 == -h ]; then
+    validusage=1
+    helpflag=1
+  fi
+  
+  # At this point argument is parsed or invalid usage is identified
+  # with the validusage flag - now, perform operations
+
+  # Case where we need to print usage message
+  if [ $helpflag -eq 1 ] || [ $validusage -eq 0 ]; then
+    cat >&2 <<EOF
+usage: $(basename $0) [options] [[n]-[m]]
+Determine the minimum unused numeric group ID. If provided, n and m
+limit (inclusively) the minimum and maximum group IDs for the search.
+
+Options:
+-h  Display this help message. 
+EOF
+    if [ $validusage -eq 1 ] && [ $helpflag -eq 1 ]; then
+      exit 0
+    elif [ $validusage -eq 0 ]; then
+      exit 2
+    fi
+  
+  # Case where we need to find minimum available group id in the
+  # range base-limit (inclusive)
+  else
+    for i in $(seq $base $limit); do
+      validgid=1
+      while read line; do
+        # If this statement is true, i is not a valid gid
+        # so we can break from while loop
+        if [ $i -eq $line ]; then
+          validgid=0
+          break
+        fi
+      done <<< "$gids"
+
+      # If this statement is true, i is the lowest gid available
+      # so we can output the value of i and then exit with status of 0
+      if [ $validgid -eq 1 ]; then
+        echo $i
+        exit 0
+      fi
+    done # end of for loop
+
+    # If we ever get to this code segment, there is no valid gid in
+    # range, so we exit with exit status 1 with no output
+    exit 1
+  fi
+}
+
+nextgroup $@
