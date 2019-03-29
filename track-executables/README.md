@@ -7,6 +7,8 @@ This program scans the processes under /proc and determines if it has any W&X me
 `wx_scan -k`
 - This will list and kill all processes currently running with W&X memory segments
 
+The second program, setwx, is for testing. Executing this program will initialize a new process with W&X memory, and will then sleep for a brief period. See below "Testing Instructions" for usage.
+
 **Compiling Instructions:**
 
 `make wx_scan`
