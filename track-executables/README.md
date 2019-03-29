@@ -1,3 +1,12 @@
+**Description**
+This program scans the processes under /proc and determines if it has any W&X memory. The output of the program is a list of the process IDs and executable names for the process.
+
+`wx_scan`
+- This will list all processes currently running with W&X memory segments
+
+`wx_scan -k`
+- This will list and kill all processes currently running with W&X memory segments
+
 **Compiling Instructions:**
 
 `make wx_scan`
