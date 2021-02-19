@@ -3,18 +3,19 @@
 function renamefiles() {
 	if [ $# -eq 2 ]; then
 		cmd="find . -name $1"
-		filestorename="$(eval $cmd)"
-		if [ "$filestorename" == "" ]; then
+		filesToRename="$(eval $cmd)"
+		if [ "$filesToRename" == "" ]; then
+			echo "No files found to rename"
 			exit 1
 		fi
 		echo "$filestorename" | \
 			while read line; do
-				replacementpath="$(eval dirname $line)"
-				replacementpath+="/$2"
-				cmd="mv $line $replacementpath"
+				replacementPath="$(eval dirname $line)"
+				replacementPath+="/$2"
+				cmd="mv $line $replacementPath"
 				eval "$cmd"
-            done
-    else
+			done
+	else
 		cat >&2 <<EOF
 
 usage: $(basename $0) original_file_name new_file_name
@@ -23,7 +24,7 @@ this directory and all subdirectories and rename the file
 with the given new file name.
 
 EOF
-    fi
+	fi
 }
-		
+
 renamefiles $@
