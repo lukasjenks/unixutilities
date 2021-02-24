@@ -3,17 +3,21 @@
 ## cpu-users
 
 **Description**
+
 A bash script which, for the UID of each user running a process on the Unix system it was executed on, sums the CPU time (user & system) of all the user's processes.
 
 **Usage**
+
 cpuusers
 
 ## custom-shell
 
 **Description**
+
 This is a very rough draft of a proof of concept for a custom unix shell. It is by no means finished/refined and hasn't been worked on for some time.
 
 **Compilation Instructions**
+
 `make all`
 - This will trigger the target `make shell`
 
@@ -21,23 +25,28 @@ This is a very rough draft of a proof of concept for a custom unix shell. It is 
 - This will compile shell.c into the executable shell
 
 **Usage**
+
 `shell`
 - This will execute and initialize the interactive shell
 
 ## find-user
 
 **Description**
+
 Bash script which finds every user in a Unix system that has all of the search terms present in their account's comment field.
 
 **Usage**
+
 finduser [search_terms_here]
 
 ## next-group
 
 **Description**
+
 Determines the minimum unused GID in the Unix system. If provided, arguments n and/or m limit (inclusively) the minimum and maximuim GIDs for the search.
 
 **Usage**
+
 `nextgroup [options] [[n]-[m]]`
 
 options: -h Displays a help message including usage and description.
@@ -45,9 +54,11 @@ options: -h Displays a help message including usage and description.
 ## rename-all
 
 **Description**
+
 This is a simple bash script that finds every file with the the given original file name in the pwd and all subdirectories and renames the files with the given new file name.
 
 **Usage**
+
 `rename-all [orig_file_name] [new_file_name]`
 
 ## track-executables
