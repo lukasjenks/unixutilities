@@ -8,7 +8,7 @@ A bash script which, for the UID of each user running a process on the Unix syst
 
 **Usage**
 
-cpuusers
+`cpuusers`
 
 ## custom-shell
 
@@ -37,7 +37,7 @@ Bash script which finds every user in a Unix system that has all of the search t
 
 **Usage**
 
-finduser [search_terms_here]
+`finduser [search_terms_here]`
 
 ## next-group
 
