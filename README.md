@@ -43,7 +43,7 @@ Bash script which finds every user in a Unix system that has all of the search t
 
 **Description**
 
-Determines the minimum unused GID in the Unix system. If provided, arguments n and/or m limit (inclusively) the minimum and maximuim GIDs for the search.
+Determines the lowest unused GID in the Unix system. If provided, arguments n and/or m limit (inclusively) the minimum and maximuim GIDs for the search.
 
 **Usage**
 
@@ -102,7 +102,7 @@ To test, run:
 `make test`
 
 **Notes**
-To determine how to complete this project, I first examined the proc directory and its contents, and researched the properties of the 
+To determine how to complete this program, I first examined the proc directory and its contents, and researched the properties of the 
 proc directory in the linux filesystem (see reference in wx_scan.c). What I found was that within /proc, the subdirectories 
 which had names of a series of digits corresponded to a process, with the name being the process id. Also, I took note of 
 some files that I knew I had to get information from:
