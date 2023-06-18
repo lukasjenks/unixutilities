@@ -28,8 +28,11 @@ shift $((OPTIND -1))
 # change dir to the location of your files
 cd "${input_dir}"
 
+ls_cmd=$(ls -1 *.mp4 *.MP4 2>/dev/null)
+
 # count the number of .mp4 and .MP4 files in the dir
-total_steps=$(ls -1 *.mp4 *.MP4 2>/dev/null | wc -l)
+total_steps=$(${ls_cmd} | wc -l)
+${ls_cmd} > mylist.txt
 
 # the command whose progress we want to track
 command="ffmpeg -f concat -safe 0 -i mylist.txt -c copy ${output_file}"
